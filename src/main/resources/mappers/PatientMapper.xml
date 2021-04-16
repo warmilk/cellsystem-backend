@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kueen.cellsystem.dao.PatientMapper">
+    <resultMap id="allMap" type="com.kueen.cellsystem.entity.PatientDetail">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="bed_id" property="bedId" />
+        <result column="department_id" property="departmentId" />
+        <result column="region_id" property="regionId" />
+        <result column="model_id" property="modelId" />
+        <result column="opinion_id" property="opinionId" />
+        <result column="description_id" property="descriptionId" />
+        <result column="patient_id" property="patientId" />
+        <result column="slice_id" property="sliceId" />
+        <result column="slice_num" property="sliceNum" />
+        <result column="slice_state" property="sliceState" />
+        <result column="create_time" property="createTime" />
+        <result column="create_uid" property="createUid" />
+        <result column="check_time" property="checkTime" />
+        <result column="check_uid" property="checkUid" />
+    </resultMap>
+
+    <resultMap id="readableMap" type="com.kueen.cellsystem.entity.PatientDetail">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="bed_id" property="bedId" />
+        <result column="department" property="department" />
+        <result column="region" property="region" />
+        <result column="opinion" property="opinion" />
+        <result column="description" property="description" />
+        <result column="patient_id" property="patientId" />
+        <result column="slice_id" property="sliceId" />
+        <result column="slice_num" property="sliceNum" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="check_time" property="checkTime" />
+        <result column="check_user" property="checkUser" />
+    </resultMap>
+
+
+    <select id="getPatientNum" resultType="Integer">
+        SELECT
+            count(*)
+        FROM
+            patient
+    </select>
+
+    <select id="getBatchPatient" resultMap="allMap">
+        SELECT
+            *
+        FROM
+            patient
+        WHERE
+            create_time BETWEEN #{startDate} AND #{endDate}
+        ORDER BY
+            ${column} ${order}
+        LIMIT
+            #{from}, #{size}
+    </select>
+
+    <select id="searchPatient" resultMap="allMap">
+        SELECT
+            *
+        FROM
+            patient
+        WHERE
+            name = #{keyword} or patient_id = #{keyword}
+        ORDER BY
+            ${column} ${order}
+        LIMIT
+            #{from}, #{size}
+    </select>
+
+    <select id="searchPatientNum" resultType="Integer">
+        SELECT
+            count(*)
+        FROM
+            patient
+        WHERE
+            name = #{keyword} or patient_id = #{keyword}
+    </select>
+
+    <update id="modifyPatient" parameterType="com.kueen.cellsystem.entity.PatientDetail">
+        UPDATE
+            patient
+        SET
+            name = #{name}, gender = #{gender}, birthday = #{birthday},
+            bed_id = #{bedId}, region_id = #{regionId}, department_id = #{departmentId},
+            opinion_id = #{opinionId}, description_id = #{descriptionId}
+        WHERE
+            id = #{id}
+    </update>
+
+    <insert id="insertPatient" parameterType="com.kueen.cellsystem.entity.PatientDetail">
+        INSERT INTO
+            patient(name, gender, birthday, bed_id, department_id, region_id, patient_id, slice_id, slice_num, create_uid)
+        VALUES
+            (#{name}, #{gender}, #{birthday}, #{bedId}, #{departmentId}, #{regionId}, #{patientId}, #{sliceId}, #{sliceNum}, #{createUid})
+    </insert>
+
+    <update id="updateSliceStateBySliceId">
+        UPDATE
+            patient
+        SET
+            slice_state = #{sliceState}, model_id = #{modelId}, check_time = CURRENT_TIMESTAMP, check_uid = #{checkUid}
+        WHERE
+            slice_id = #{sliceId}
+    </update>
+
+    <select id="getPatientById" resultMap="allMap">
+        SELECT
+            *
+        FROM
+            patient
+        WHERE
+            id = #{id}
+    </select>
+    <select id="getReadablePatientById" resultMap="readableMap">
+        SELECT
+            patient.id AS id,
+            patient.name AS name,
+            patient.gender AS gender,
+            birthday,
+            bed_id,
+            department.name AS department,
+            region.name AS region,
+            opinion.content AS opinion,
+            description.content AS description,
+            patient_id,
+            slice_id,
+            slice_num,
+            create_time,
+            checkUser.name AS check_user,
+            check_time,
+            createUser.name AS create_user
+        FROM
+            patient
+                INNER JOIN user AS checkUser ON patient.check_uid = checkUser.id
+                INNER JOIN user AS createUser ON patient.create_uid = createUser.id
+                INNER JOIN department ON patient.department_id = department.id
+                INNER JOIN region ON patient.region_id = region.id
+                INNER JOIN opinion ON patient.opinion_id = opinion.id
+                INNER JOIN description ON patient.description_id = description.id
+        WHERE
+            patient.id = #{id};
+    </select>
+
+</mapper>

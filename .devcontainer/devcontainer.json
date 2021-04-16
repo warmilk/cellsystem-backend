@@ -1,0 +1,5 @@
+{
+  "image": "maven:3.8-openjdk-8-slim",
+  "mounts": ["src=maven-repo,target=/root/.m2,type=volume"],
+  "runArgs": ["--net=host"]
+}
