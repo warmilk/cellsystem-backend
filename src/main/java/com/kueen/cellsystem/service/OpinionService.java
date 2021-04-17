@@ -9,4 +9,8 @@ public interface OpinionService {
 
     List<OpinionDetail> getAll();
 
+    void modify(OpinionDetail opinionDetail);
+    void add(OpinionDetail opinionDetail);
+    void delete(int id);
+
 }

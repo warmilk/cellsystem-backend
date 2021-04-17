@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.kueen.cellsystem.entity.OpinionDetail;
 
 @Controller
 @RequestMapping("/opinion")
@@ -22,5 +25,25 @@ public class OpinionController {
         return CommonResult.success(opinionService.getAll());
     }
 
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult modify(@RequestBody OpinionDetail opinionDetail) {
+        opinionService.modify(opinionDetail);
+        return CommonResult.success(null);
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult add(@RequestBody OpinionDetail opinionDetail) {
+        opinionService.add(opinionDetail);
+        return CommonResult.success(null);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@RequestBody int id) {
+        opinionService.delete(id);
+        return CommonResult.success(null);
+    }
 
 }

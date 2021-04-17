@@ -18,4 +18,14 @@ public class OpinionServiceImpl implements OpinionService {
     public List<OpinionDetail> getAll() {
         return opinionMapper.getAll();
     }
+
+    public void modify(OpinionDetail opinionDetail) {
+        opinionMapper.modify(opinionDetail);
+    }
+    public void add(OpinionDetail opinionDetail) {
+        opinionMapper.add(opinionDetail);
+    }
+    public void delete(int id) {
+        opinionMapper.delete(id);
+    }
 }

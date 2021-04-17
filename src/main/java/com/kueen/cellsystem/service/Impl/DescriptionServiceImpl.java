@@ -18,4 +18,15 @@ public class DescriptionServiceImpl implements DescriptionService {
     public List<DescriptionDetail> getAll() {
         return descriptionMapper.getAll();
     }
+
+    public void modify(DescriptionDetail descriptionDetail) {
+        descriptionMapper.modify(descriptionDetail);
+    }
+    public void add(DescriptionDetail descriptionDetail) {
+        descriptionMapper.add(descriptionDetail);
+    }
+    public void delete(int id) {
+        descriptionMapper.delete(id);
+    }
+
 }

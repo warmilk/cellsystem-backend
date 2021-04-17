@@ -9,4 +9,27 @@
             description
     </select>
 
+    <update id="modify" parameterType="com.kueen.cellsystem.entity.DescriptionDetail"> 
+        UPDATE
+            description
+        SET
+            content = #{content}
+        WHERE
+            id = #{id}
+    </update>
+
+    <insert id="add" parameterType="com.kueen.cellsystem.entity.DescriptionDetail">
+        INSERT INTO
+            description (contnet)
+        VALUES
+            (#{contnet})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM
+            description
+        WHERE
+            id = #{id}
+    </delete>
+
 </mapper>

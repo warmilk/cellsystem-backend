@@ -9,5 +9,8 @@ import java.util.List;
 public interface OpinionMapper {
 
     List<OpinionDetail> getAll();
+    void modify(OpinionDetail opinionDetail);
+    void add(OpinionDetail opinionDetail);
+    void delete(int id);
 
 }

@@ -9,4 +9,27 @@
             opinion
     </select>
 
+    <update id="modify" parameterType="com.kueen.cellsystem.entity.OpinionDetail"> 
+        UPDATE
+            opinion
+        SET
+            content = #{content}
+        WHERE
+            id = #{id}
+    </update>
+
+    <insert id="add" parameterType="com.kueen.cellsystem.entity.OpinionDetail">
+        INSERT INTO
+            opinion (contnet)
+        VALUES
+            (#{contnet})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM
+            opinion
+        WHERE
+            id = #{id}
+    </delete>
+
 </mapper>

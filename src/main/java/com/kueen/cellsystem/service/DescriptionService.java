@@ -9,4 +9,8 @@ public interface DescriptionService {
 
     List<DescriptionDetail> getAll();
 
+    void modify(DescriptionDetail descriptionDetail);
+    void add(DescriptionDetail descriptionDetail);
+    void delete(int id);
+
 }
