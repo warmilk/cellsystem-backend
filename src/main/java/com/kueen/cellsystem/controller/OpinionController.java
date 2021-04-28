@@ -36,13 +36,13 @@ public class OpinionController {
     @ResponseBody
     public CommonResult add(@RequestBody OpinionDetail opinionDetail) {
         opinionService.add(opinionDetail);
-        return CommonResult.success(null);
+        return CommonResult.success(opinionDetail.getId());
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult delete(@RequestBody int id) {
-        opinionService.delete(id);
+    public CommonResult delete(@RequestBody OpinionDetail opinionDetail) {
+        opinionService.delete(opinionDetail.getId());
         return CommonResult.success(null);
     }
 

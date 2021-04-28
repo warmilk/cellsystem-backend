@@ -139,12 +139,12 @@
             createUser.name AS create_user
         FROM
             patient
-                INNER JOIN user AS checkUser ON patient.check_uid = checkUser.id
-                INNER JOIN user AS createUser ON patient.create_uid = createUser.id
-                INNER JOIN department ON patient.department_id = department.id
-                INNER JOIN region ON patient.region_id = region.id
-                INNER JOIN opinion ON patient.opinion_id = opinion.id
-                INNER JOIN description ON patient.description_id = description.id
+                LEFT JOIN user AS checkUser ON patient.check_uid = checkUser.id
+                LEFT JOIN user AS createUser ON patient.create_uid = createUser.id
+                LEFT JOIN department ON patient.department_id = department.id
+                LEFT JOIN region ON patient.region_id = region.id
+                LEFT JOIN opinion ON patient.opinion_id = opinion.id
+                LEFT JOIN description ON patient.description_id = description.id
         WHERE
             patient.id = #{id};
     </select>

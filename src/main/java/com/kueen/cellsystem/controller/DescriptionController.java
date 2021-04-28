@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kueen.cellsystem.entity.DescriptionDetail;
 
@@ -36,13 +37,13 @@ public class DescriptionController {
     @ResponseBody
     public CommonResult add(@RequestBody DescriptionDetail descriptionDetail) {
         descriptionService.add(descriptionDetail);
-        return CommonResult.success(null);
+        return CommonResult.success(descriptionDetail.getId());
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult delete(@RequestBody int id) {
-        descriptionService.delete(id);
+    public CommonResult delete(@RequestBody DescriptionDetail descriptionDetail) {
+        descriptionService.delete(descriptionDetail.getId());
         return CommonResult.success(null);
     }
 

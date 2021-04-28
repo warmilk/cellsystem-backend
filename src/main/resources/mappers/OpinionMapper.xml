@@ -18,11 +18,11 @@
             id = #{id}
     </update>
 
-    <insert id="add" parameterType="com.kueen.cellsystem.entity.OpinionDetail">
+    <insert id="add" parameterType="com.kueen.cellsystem.entity.OpinionDetail" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            opinion (contnet)
+            opinion (content)
         VALUES
-            (#{contnet})
+            (#{content})
     </insert>
 
     <delete id="delete">
