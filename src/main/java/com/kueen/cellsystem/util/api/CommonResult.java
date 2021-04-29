@@ -1,6 +1,6 @@
 package com.kueen.cellsystem.util.api;
 
-public class CommonResult<T> {
+public class CommonResult<T> { // CommonResult<T>里的<T>表明该方法将使用泛型类型T，此时才可以在方法中使用泛型类型T。与泛型类的定义一样，此处T（type）可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型。Java中引入泛型最主要的目的是将【数据类型检查】工作提前到编译时期，Java泛型（generics）是JDK 5中引入的一个新特性,泛型提供了编译时类型安全检测机制，该机制允许程序员在编译时检测到非法的类型。
     /**
      * 状态码
      */
