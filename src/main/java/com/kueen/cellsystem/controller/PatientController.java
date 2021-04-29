@@ -4,7 +4,7 @@ package com.kueen.cellsystem.controller;
 import com.kueen.cellsystem.entity.ModelCheckParam;
 import com.kueen.cellsystem.entity.PatientDetail;
 import com.kueen.cellsystem.entity.PatientPage;
-import com.kueen.cellsystem.entity.PatientTableRaram;
+import com.kueen.cellsystem.entity.PatientTableParam;
 import com.kueen.cellsystem.service.ModelService;
 import com.kueen.cellsystem.service.PatientService;
 import com.kueen.cellsystem.service.UploadService;
@@ -45,8 +45,8 @@ public class PatientController {
             @RequestParam("startDate") Timestamp startDate,
             @RequestParam("endDate") Timestamp endDate
     ) {
-        PatientTableRaram patientTableRaram = new PatientTableRaram(currPage, pageSize, column, order, keyword, startDate, endDate);
-        PatientPage patientPage = patientService.getPatient(patientTableRaram);
+        PatientTableParam patientTableParam = new PatientTableParam(currPage, pageSize, column, order, keyword, startDate, endDate);
+        PatientPage patientPage = patientService.getPatient(patientTableParam);
         return CommonResult.success(patientPage);
     }
 
@@ -74,29 +74,6 @@ public class PatientController {
         return CommonResult.success(null);
     }
 
-//    @RequestMapping(value = "/check", method = RequestMethod.POST)
-//    @ResponseBody
-//    public CommonResult check(@RequestBody ModelCheckParam modelCheckParam) {
-//        CommonResult commonResult = null;
-//        try {
-//            ModelSocket modelSocket = new ModelSocket(modelPort);
-//            modelCheckParam.setModelId(1);
-//            CommandParam commandParam = CommandParam.handle(modelCheckParam);
-//            modelSocket.send(commandParam.toString());
-//            patientService.setSliceHandling(modelCheckParam);
-//            commonResult = modelSocket.read();
-//            modelSocket.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (commonResult.getCode() == ResultCode.SUCCESS.getCode()) {
-//            patientService.setSliceFinish(modelCheckParam);
-//        } else {
-//            patientService.setSliceFailed(modelCheckParam);
-//        }
-//        return commonResult;
-//    }
-
     @RequestMapping(value = "/check", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult check(@RequestBody ModelCheckParam modelCheckParam) {
@@ -118,6 +95,9 @@ public class PatientController {
         PatientDetail patientDetail = patientService.getPatientById(id);
         return CommonResult.success(patientDetail);
     }
+
+
+
     @RequestMapping(value = "/readable/one", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult getReadableOne(@RequestParam("id") int id) {

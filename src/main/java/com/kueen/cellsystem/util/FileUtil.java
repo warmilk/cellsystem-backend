@@ -30,8 +30,7 @@ public class FileUtil {
      * @return
      * @throws Exception
      */
-    public static String file
-    Upload(MultipartFile file, String path) {
+    public static String fileUpload(MultipartFile file, String path) {
         log.info("fileUpload -- fileName：{},---path--{}", file.getOriginalFilename(), path);
         String uploadPath = null;
         try {
