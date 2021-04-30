@@ -32,4 +32,5 @@ build/
 
 ### CellSystem ###
 slice/*
+slice/*
 src/main/resources/static/*

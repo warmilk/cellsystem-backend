@@ -10,12 +10,6 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-/**
- * 文件操作
- *
- * @author guoqinghua
- * @create 2019-07-30 14:36
- */
 public class FileUtil {
 
     private static Logger log = LoggerFactory.getLogger(FileUtil.class);
@@ -31,7 +25,7 @@ public class FileUtil {
      * @throws Exception
      */
     public static String fileUpload(MultipartFile file, String path) {
-        log.info("fileUpload -- fileName：{},---path--{}", file.getOriginalFilename(), path);
+//        log.info("fileUpload -- fileName：{},---path--{}", file.getOriginalFilename(), path);
         String uploadPath = null;
         try {
             String fileName = URLDecoder.decode(file.getOriginalFilename(), "utf-8");
@@ -56,7 +50,7 @@ public class FileUtil {
     }
 
     /**
-     * 通过浏览器下载
+     * 通过浏览器下载文件
      *
      * @param name
      * @param fileName
