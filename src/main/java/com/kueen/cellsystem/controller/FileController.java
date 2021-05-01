@@ -6,7 +6,7 @@ import com.kueen.cellsystem.util.FileUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -16,27 +16,22 @@ public class FileController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public String fileUpload(@RequestParam MultipartFile file) {
-        String projectRootPath = System.getProperty("user.dir"); //获取当前项目的根目录
-        String projectImgPath = "/slice";
-        String imgSaveFullPath = projectRootPath + projectImgPath;  //后台上传图片地址
-
-
-        String uploadPath = FileUtil.fileUpload(file, imgSaveFullPath); //http://localhost:6660/sliceImg/D:\Program Files (x86)\cellsystem/sliceImg\1619775271248_slice.jpg
-
-
-
-//        return "http://localhost:6660" + projectImgPath + FileUtil.base64Encode(uploadPath); // base64Encode base64加密防止目录被猜解，图片被遍历访问
+        String projectRootPath = System.getProperty("user.dir");
+        String projectImgPath = "//src//main//resources//static";
+        String imgSaveFullPath = projectRootPath + projectImgPath;
+        String uploadPath = FileUtil.fileUpload(file, imgSaveFullPath);
         return "http://localhost:6660" + "/file/get/" + FileUtil.base64Encode(uploadPath);
     }
 
     @RequestMapping(value = "/get/{imgFullPath}", method = RequestMethod.GET)
     @ResponseBody
-    public String fileUpload(@PathVariable String imgFullPath) {
-        //1.url//decode
-        //2."D:\\testUpload\\\\1619769996293_slice.jpg"
-        //3.
-//        String dirPath = "D:\\testUpload\\";
-        return "你是煞笔";
+    public void fileAccess(HttpServletResponse response, @PathVariable String imgFullPath) {
+        String imgPath = FileUtil.base64Decode(imgFullPath);
+        try {
+            FileUtil.getImage(response, imgPath);
+        }catch (Exception e){
+            System.out.println("图片回显异常");
+        }
     }
 
 }

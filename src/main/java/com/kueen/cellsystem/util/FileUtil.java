@@ -3,10 +3,16 @@ package com.kueen.cellsystem.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.IOUtils;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -14,27 +20,15 @@ public class FileUtil {
 
     private static Logger log = LoggerFactory.getLogger(FileUtil.class);
 
-    private static String ftpStartAndEnd = "/";
-
-    /**
-     * 文件上传
-     *
-     * @param file
-     * @param path
-     * @return
-     * @throws Exception
-     */
     public static String fileUpload(MultipartFile file, String path) {
-//        log.info("fileUpload -- fileName：{},---path--{}", file.getOriginalFilename(), path);
         String uploadPath = null;
         try {
-            String fileName = URLDecoder.decode(file.getOriginalFilename(), "utf-8");
-            if (path.endsWith(ftpStartAndEnd)) {
-                uploadPath = path + System.currentTimeMillis() + "_" + fileName;
+            if (path.endsWith("/")) {
+                uploadPath = path + System.currentTimeMillis() + ".jpg";
             } else {
-                uploadPath = path + File.separator + System.currentTimeMillis() + "_" + fileName;
+                uploadPath = path + File.separator + System.currentTimeMillis() + ".jpg";
             }
-            log.info("uploadPath--{}", uploadPath);
+            //log.info("uploadPath--{}", uploadPath);
             if (!new File(uploadPath).exists()) {
                 //创建父级文件路径
                 new File(uploadPath).getParentFile().mkdirs();
@@ -49,48 +43,28 @@ public class FileUtil {
         return uploadPath;
     }
 
-    /**
-     * 通过浏览器下载文件
-     *
-     * @param name
-     * @param fileName
-     * @param request
-     * @param response
-     * @return
-     */
-    public static HttpServletResponse webDownload(String name, String fileName, HttpServletRequest request, HttpServletResponse response) {
-        try {
-            //获得浏览器代理信息
-            final String userAgent = request.getHeader("USER-AGENT");
-            //如果fileName为空，默认为文件名称
-//            if (StringUtils.isEmpty(fileName)) {
-//                fileName = name;
-//            }
-            String finalFileName;
-            //判断浏览器代理并分别设置响应给浏览器的编码格式
-            //其他浏览器
-            finalFileName = URLEncoder.encode(fileName, "UTF8");
-            //设置HTTP响应头
-            // 重置 响应头
-            response.reset();
-            //告知浏览器下载文件，而不是直接打开，浏览器默认为打开
-            response.setContentType("application/x-download");
-            //下载文件的名称
-            response.addHeader("Content-Disposition", "attachment;filename=\"" + finalFileName + "\"");
-        } catch (Exception e) {
-            log.info("---download error--", e);
-        }
-
+    public static HttpServletResponse webDownload(HttpServletResponse response) {
+        response.reset();
+        response.setContentType("application/x-download");
+        response.addHeader("Content-Disposition", "attachment;filename=1619802456949_slice.jpg");
         return response;
     }
 
+    public static void getImage(HttpServletResponse response, String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
+            response.setHeader("Content-Type", "image/gif, image/png, image/jpeg, image/bmp, image/webp, image/x-icon, image/vnd.microsoft.icon"); //设置响应头，告诉浏览器，这个请求返回的内容类型是图片
+            FileInputStream in = new FileInputStream(file); //根据文件路径读取文件流
+            OutputStream out = response.getOutputStream();
+            IOUtils.copy(in, out); //把读取到的文件流写入响应体
+            out.close();
+            in.close();
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
 
-    /**
-     * 删除文件
-     *
-     * @param path 路径
-     * @return
-     */
+
     public static Boolean deleteFile(String path) {
         try {
             File file = new File(path);
@@ -104,14 +78,13 @@ public class FileUtil {
     }
 
 
-    public static String base64Encode(String token) {
-        byte[] encodedBytes = java.util.Base64.getEncoder().encode(token.getBytes());
+    public static String base64Encode(String filePath) {
+        byte[] encodedBytes = java.util.Base64.getEncoder().encode(filePath.getBytes());
         return new String(encodedBytes, java.nio.charset.Charset.forName("UTF-8"));
     }
 
-    // 解码
-    public static String base64Decode(String token) {
-        byte[] decodedBytes = java.util.Base64.getDecoder().decode(token.getBytes());
+    public static String base64Decode(String filePath) {
+        byte[] decodedBytes = java.util.Base64.getDecoder().decode(filePath.getBytes());
         return new String(decodedBytes, java.nio.charset.Charset.forName("UTF-8"));
     }
 
