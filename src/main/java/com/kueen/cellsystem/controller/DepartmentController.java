@@ -2,8 +2,9 @@ package com.kueen.cellsystem.controller;
 
 
 import com.kueen.cellsystem.service.DepartmentService;
-import com.kueen.cellsystem.service.RegionService;
 import com.kueen.cellsystem.util.api.CommonResult;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

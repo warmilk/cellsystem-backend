@@ -18,26 +18,26 @@ public class PatientServiceImpl implements PatientService {
     private PatientMapper patientMapper;
 
     @Override
-    public PatientPage getPatient(PatientTableParam patientTableRaram) {
-        String keyword = patientTableRaram.getKeyword();
+    public PatientPage getPatient(PatientTableParam patientTableParam) {
+        String keyword = patientTableParam.getKeyword();
         PatientPage patientPage = new PatientPage();
-        int size = patientTableRaram.getPageSize();
-        int from = patientTableRaram.getCurrPage() * size - size;
+        int size = patientTableParam.getPageSize();
+        int from = patientTableParam.getCurrPage() * size - size;
         int total = 0;
         List<PatientDetail> patients = null;
         if (keyword != null && !keyword.equals("")) {
             patients = patientMapper.searchPatient(
-                    from, size, patientTableRaram.getColumn(),
-                    patientTableRaram.getOrder(),
-                    patientTableRaram.getKeyword()
+                    from, size, patientTableParam.getColumn(),
+                    patientTableParam.getOrder(),
+                    patientTableParam.getKeyword()
             );
-            total = patientMapper.searchPatientNum(patientTableRaram.getKeyword());
+            total = patientMapper.searchPatientNum(patientTableParam.getKeyword());
         } else {
-            patients = patientMapper.getBatchPatient (
-                    from, size, patientTableRaram.getColumn(),
-                    patientTableRaram.getOrder(),
-                    patientTableRaram.getStartDate(),
-                    patientTableRaram.getEndDate()
+            patients = patientMapper.getBatchPatient(
+                    from, size, patientTableParam.getColumn(),
+                    patientTableParam.getOrder(),
+                    patientTableParam.getStartDate(),
+                    patientTableParam.getEndDate()
             );
             total = patientMapper.getPatientNum();
         }

@@ -3,10 +3,8 @@
 <mapper namespace="com.kueen.cellsystem.dao.DepartmentMapper">
 
     <select id="getAll" resultType="com.kueen.cellsystem.entity.DepartmentDetail">
-        SELECT
-            *
-        FROM
-            department
+        SELECT *
+        FROM department
     </select>
 
 </mapper>
