@@ -1,9 +1,12 @@
 package com.kueen.cellsystem.controller;
 
 
-import com.kueen.cellsystem.util.FileUtil;
 import com.kueen.cellsystem.util.api.CommonResult;
+import com.kueen.cellsystem.service.FileService;
+import com.kueen.cellsystem.entity.FileDetail;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,31 +17,21 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/file")
 public class FileController {
 
+    @Autowired
+    private FileService fileService; //之所以import了FileService进来还需要@Autowired private FileService fileService; ，是因为不写这个的话，下面的FileDetail fileDetail = fileService.uploadImgFile(file); 会报错【无法从静态上下文中引用非静态方法】需要手动new实例化对象才能用 https://www.jianshu.com/p/203d03f98aa6
+
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult fileUpload(@RequestParam MultipartFile file) {
-        String projectRootPath = System.getProperty("user.dir");
-        String projectImgPath = "//src//main//resources//static";
-        String imgSaveFullPath = projectRootPath + projectImgPath;
-        String uploadPath = FileUtil.fileUpload(file, imgSaveFullPath);
-        class ImgUploadResponse {
-            public String imgUrl;
-        }
-        ImgUploadResponse imgUploadResponse = new ImgUploadResponse();
-        imgUploadResponse.imgUrl = "http://localhost:6660" + "/file/get/" + FileUtil.base64Encode(uploadPath);
-        return CommonResult.success(imgUploadResponse);
+        FileDetail fileDetail = fileService.uploadImgFile(file);
+        return CommonResult.success(fileDetail);
 
     }
 
     @RequestMapping(value = "/get/{imgFullPath}", method = RequestMethod.GET)
     @ResponseBody
     public void fileAccess(HttpServletResponse response, @PathVariable String imgFullPath) {
-        String imgPath = FileUtil.base64Decode(imgFullPath);
-        try {
-            FileUtil.getImage(response, imgPath);
-        } catch (Exception e) {
-            System.out.println("图片回显异常");
-        }
+        fileService.accessImgFile(response, imgFullPath);
     }
 
 }

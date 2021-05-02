@@ -7,7 +7,7 @@ import com.kueen.cellsystem.entity.PatientTableParam;
 
 public interface PatientService {
 
-    PatientPage getPatient(PatientTableParam patientTableRaram);
+    PatientPage getPatient(PatientTableParam patientTableParam);
     void modifyPatient(PatientDetail patientDetail);
     void insertPatient(PatientDetail patientDetail);
 
