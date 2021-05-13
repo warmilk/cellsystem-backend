@@ -4,7 +4,10 @@ package com.kueen.cellsystem.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.sql.Timestamp;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Data
 @AllArgsConstructor
 public class PatientTableParam {

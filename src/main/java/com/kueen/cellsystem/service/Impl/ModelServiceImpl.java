@@ -47,7 +47,7 @@ public class ModelServiceImpl implements ModelService {
         ModelCheckQueryParam modelCheckQueryParam = new ModelCheckQueryParam();
         modelCheckQueryParam.setThread(thread.toString());
         for (int i = 0; i < modelCheckParam.getSliceNum(); i++) {
-            modelCheckQueryParam.setSliceUrl("slice/" + modelCheckParam.getSliceId() + "/" + i + ".jpg");
+            //modelCheckQueryParam.setSliceUrl("slice/" + modelCheckParam.getSliceId() + "/" + i + ".jpg");
             try {
                 session.sendMessage(new TextMessage(CommandParam.handle(modelCheckQueryParam).toString()));
                 WsThreadManager.add(thread.toString(), thread);

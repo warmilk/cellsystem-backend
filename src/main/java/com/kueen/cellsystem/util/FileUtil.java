@@ -24,9 +24,9 @@ public class FileUtil {
         String uploadPath = null;
         try {
             if (path.endsWith("/")) {
-                uploadPath = path + System.currentTimeMillis() + ".jpg";
+                uploadPath = path + System.currentTimeMillis() + ".tif";
             } else {
-                uploadPath = path + File.separator + System.currentTimeMillis() + ".jpg";
+                uploadPath = path + File.separator + System.currentTimeMillis() + ".tif";
             }
             //log.info("uploadPath--{}", uploadPath);
             if (!new File(uploadPath).exists()) {
@@ -53,7 +53,7 @@ public class FileUtil {
     public static void getImage(HttpServletResponse response, String filePath) throws IOException {
         File file = new File(filePath);
         if (file.exists()) {
-            response.setHeader("Content-Type", "image/gif, image/png, image/jpeg, image/bmp, image/webp, image/x-icon, image/vnd.microsoft.icon"); //设置响应头，告诉浏览器，这个请求返回的内容类型是图片
+            response.setHeader("Content-Type", "image/gif, image/png, image/jpeg, image/bmp, image/webp, image/tif, image/tiff, image/x-icon, image/vnd.microsoft.icon"); //设置响应头，告诉浏览器，这个请求返回的内容类型是图片
             FileInputStream in = new FileInputStream(file); //根据文件路径读取文件流
             OutputStream out = response.getOutputStream();
             IOUtils.copy(in, out); //把读取到的文件流写入响应体

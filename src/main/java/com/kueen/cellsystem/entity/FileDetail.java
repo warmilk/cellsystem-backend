@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class FileDetail {
     private String imgUrl;
+    private String partimgUrl;//用于加密的那一串
 }
