@@ -1,12 +1,14 @@
 package com.kueen.cellsystem.controller;
 import com.kueen.cellsystem.util.api.CommonResult;
 import com.kueen.cellsystem.service.FileService;
-import com.kueen.cellsystem.entity.MsgParam;
-import com.kueen.cellsystem.entity.FileDetail;
+import com.kueen.cellsystem.entity.IdentifyParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
+
 @RestController
 @RequestMapping("/msg")
 public class InputMessageCellImgController {
@@ -16,15 +18,16 @@ public class InputMessageCellImgController {
 
     @RequestMapping(value = "/modifiy", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult formUpload(@RequestBody MsgParam msgParam) {
-        System.out.println(msgParam.getP());
+    public CommonResult formUpload(@RequestBody  Map<String, Map<String,Object>> requestBodyData) {
+        Map<String, Object> object1 = requestBodyData.get("object1");
+        System.out.println(object1);
         class JJ {
                public String a;
         }
         JJ jj = new JJ();
         jj.a = "Yes";
-        if(msgParam.getP()==null)
-            jj.a = "no";
+        //if(msgParam.getP()==null)
+        //    jj.a = "no";
         return CommonResult.success(jj);
     }
 

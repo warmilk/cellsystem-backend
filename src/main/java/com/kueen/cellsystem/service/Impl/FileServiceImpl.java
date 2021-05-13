@@ -25,6 +25,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void accessImgFile(HttpServletResponse response, String imgFullPath) {
         String imgPath = FileUtil.base64Decode(imgFullPath);
+        System.out.println(imgPath);
         try {
             FileUtil.getImage(response, imgPath);
         } catch (Exception e) {
