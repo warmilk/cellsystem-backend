@@ -130,9 +130,8 @@ public class CellprofilerServiceImpl implements CellprofilerService {
             return CommonResult.failed();
         }
         JSONArray res=msg.getJSONArray("data");
-        System.out.println(res.getJSONArray(0).get(1));
-        String filename = "./slice/" + modelCheckParam.getSliceId() + "/" + ".json";
+        String res_list= res.toJSONString();
         //cellprofilerService.modifyCell(filename, msg.getString("data"));
-        return CommonResult.success(res);
+        return CommonResult.success(JSONObject.parseArray(res_list));
     }
 }
